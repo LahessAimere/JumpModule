@@ -6,22 +6,23 @@ using static UnityEditor.PlayerSettings;
 
 public class Jump : MonoBehaviour
 {
-    [SerializeField] GameObject player;
+    
     [SerializeField] Rigidbody rbd;
     [SerializeField] Animator Anim;
     [SerializeField] int jumpSpeed = 300;
-    [SerializeField] bool jumping;
+    [SerializeField] bool jumping = true;
     [SerializeField] int ground;
     [SerializeField] bool IsGrounded = true;
     [SerializeField] int nbSauts ;
-    [SerializeField] int nbMaxSAuts = 3;
+    [SerializeField] int nbMaxSAuts;
     void Jumping()
     {
+        //Jump counter
         if(nbSauts >= nbMaxSAuts)
         {
             return;
         }
-
+        //JUmp button
         if(Input.GetKeyDown(KeyCode.Space))
         {   
             rbd.AddForce(new Vector2(0,jumpSpeed));
@@ -34,16 +35,12 @@ public class Jump : MonoBehaviour
         {
             Anim.SetBool("IdleToJump", false);
             Anim.SetBool("JumpToIdle", true);
-            jumping = false;    
+                
         }
-
-        if(IsGrounded == true)
+        //Grounded check
+        if(IsGrounded)
         {
             jumping = false;
-        }
-        else
-        {
-            jumping = true;
         }
     }
 
@@ -59,7 +56,6 @@ public class Jump : MonoBehaviour
     void Start()
     {
         rbd = GetComponent<Rigidbody>();
-        player = GetComponent<GameObject>();
         Anim = GetComponent<Animator>();
         Debug.Log(Anim);
     }
@@ -70,8 +66,4 @@ public class Jump : MonoBehaviour
         Jumping();
     }
 
-    private void FixedUpdate()
-    {
-       
-    }
 }
