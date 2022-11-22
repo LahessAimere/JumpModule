@@ -6,36 +6,25 @@ using static UnityEditor.PlayerSettings;
 
 public class Jump : MonoBehaviour
 {
-    
     [SerializeField] Rigidbody rbd;
     [SerializeField] Animator Anim;
-    [SerializeField] int jumpSpeed = 300;
-    [SerializeField] int ground;
+    [SerializeField] int jumpSpeed = 200;
+    [SerializeField] int ground = 6;
     [SerializeField] int nbSauts ;
     [SerializeField] int nbMaxSAuts;
-    void Jumping()
+     public void Jumping()
     {
         //Jump counter
         if(nbSauts >= nbMaxSAuts)
         {
             return;
         }
-        //JUmp button
-        if(Input.GetKeyDown(KeyCode.Space))
-        {   
+        //Jump button
             rbd.AddForce(new Vector2(0,jumpSpeed));
             nbSauts++;
-            Anim.SetBool("IdleToJump", true);
-            Anim.SetBool("JumpToIdle", false);
-        }
-        else
-        {
-            Anim.SetBool("IdleToJump", false);
-            Anim.SetBool("JumpToIdle", true);
-                
-        }
     }
 
+    //Called Layer for detect the floor
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.layer == ground)
@@ -43,10 +32,10 @@ public class Jump : MonoBehaviour
             nbSauts = 0; 
         }
     }
-    // Update is called once per frame
-    void Update()
+
+    // Start is called before the first frame update
+    private void Start()
     {
         Jumping();
     }
-
 }
